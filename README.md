@@ -77,7 +77,7 @@ afterwards; they are not part of the submission.
 | S1 binary tree traversals | all handout examples match | 40/40 | PASS |
 | S2 conditional insert | all handout examples match, including stdin | 38/38 | done |
 | P1 department puzzle | `main` prints a solution; N = 3 for clues 1–8, N = 1 with clue 9 | 8/8 | PASS |
-| P2 arithmetic equations | all handout examples match | 18/18 | PASS |
+| P2 arithmetic equations | all handout examples match | 30/30 | PASS |
 
 **P1 result:** clues 1–8 allow 3 solutions. Clue 9 ("The friend whose favorite
 language is Java works on the embedded project.") keeps exactly one. The
