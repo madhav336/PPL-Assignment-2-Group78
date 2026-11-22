@@ -88,6 +88,10 @@ clue(8, Solution) :-
     member(p(_Name, research, Lang, data), Solution),
     Lang \= javascript.
 
+% CLUE 9: The friend whose favorite language is Java works on the embedded project.
+clue(9, Solution) :-
+    member(p(_Name, _Dept, java, embedded), Solution).
+
 % =============================================================================
 % Task P1.a: Solver and Formatted Output
 % =============================================================================
