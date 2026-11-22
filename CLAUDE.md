@@ -6,6 +6,10 @@ another AI tool, paste this file in first. If anything here conflicts with the
 handout `PPL_Assignment_2_Final.pdf`, the handout wins; tell the group and fix
 this file.
 
+The rules for teammates driving the AI (ownership, the unit workflow, prompt
+logging, commits, what not to touch) are in `TEAM_GUIDE.md`, imported here:
+@TEAM_GUIDE.md
+
 ---
 
 ## 1. Rules for the AI (all sessions, all teammates)
