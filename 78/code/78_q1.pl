@@ -87,3 +87,38 @@ clue(7, Solution) :-
 clue(8, Solution) :-
     member(p(_Name, research, Lang, data), Solution),
     Lang \= javascript.
+
+% =============================================================================
+% Task P1.a: Solver and Formatted Output
+% =============================================================================
+
+%! solve_clues_1_to_8(-Solution) is nondet.
+%  Declarative reading: Solution is a complete four-friend assignment satisfying
+%  clues 1 through 8.
+solve_clues_1_to_8(Solution) :-
+    generate_solution(Solution),
+    clue(1, Solution),
+    clue(2, Solution),
+    clue(3, Solution),
+    clue(4, Solution),
+    clue(5, Solution),
+    clue(6, Solution),
+    clue(7, Solution),
+    clue(8, Solution).
+
+%! main is det.
+%  Declarative reading: Solves clues 1 to 8 and displays the first valid solution
+%  in the required format (Alex, Ben, Carla, Dana) without backtracking into
+%  subsequent solutions.
+main :-
+    solve_clues_1_to_8([
+        p('Alex',  DA, LA, PA),
+        p('Ben',   DB, LB, PB),
+        p('Carla', DC, LC, PC),
+        p('Dana',  DD, LD, PD)
+    ]),
+    !,
+    format("Alex = [~w, ~w, ~w]~n", [DA, LA, PA]),
+    format("Ben = [~w, ~w, ~w]~n", [DB, LB, PB]),
+    format("Carla = [~w, ~w, ~w]~n", [DC, LC, PC]),
+    format("Dana = [~w, ~w, ~w]~n", [DD, LD, PD]).
