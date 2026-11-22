@@ -122,3 +122,25 @@ main :-
     format("Ben = [~w, ~w, ~w]~n", [DB, LB, PB]),
     format("Carla = [~w, ~w, ~w]~n", [DC, LC, PC]),
     format("Dana = [~w, ~w, ~w]~n", [DD, LD, PD]).
+
+% =============================================================================
+% Task P1.b: Solution Counter
+% =============================================================================
+
+%! satisfies_active_clues(+Active, +Solution) is semidet.
+%  Declarative reading: Solution satisfies every clue whose number appears in
+%  the Active clue list.
+satisfies_active_clues(Active, Solution) :-
+    forall(member(C, Active), clue(C, Solution)).
+
+%! count_solutions(+Active, -N) is det.
+%  Declarative reading: N is the count of distinct four-friend assignments that
+%  satisfy all clues in the Active list and ignore all other clues. Yields N = 0
+%  when no assignment satisfies all active clues.
+count_solutions(Active, N) :-
+    findall(Solution,
+            ( generate_solution(Solution),
+              satisfies_active_clues(Active, Solution)
+            ),
+            Solutions),
+    length(Solutions, N).
