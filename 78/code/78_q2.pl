@@ -135,3 +135,10 @@ generate_equation(Numbers, Equation) :-
 all_equations(Numbers, Equations) :-
     findall(Equation, generate_equation(Numbers, Equation), UnsortedEquations),
     sort(UnsortedEquations, Equations).
+
+%! count_equations(+Numbers, -Count) is det.
+%  Declarative reading: Count is the number of distinct valid equations for
+%  Numbers, as collected and sorted by all_equations/2.
+count_equations(Numbers, Count) :-
+    all_equations(Numbers, Equations),
+    length(Equations, Count).
