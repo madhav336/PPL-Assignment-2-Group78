@@ -37,12 +37,12 @@ matters more than clever code.
 ## 3. How the grader runs the code
 
 ```
-swipl -q -f code/GROUPID_q1.pl -g main -t halt
-swipl -q -f code/GROUPID_q1.pl -g "count_solutions([1,2,3,4,5,6,7,8],N), print(N), nl" -t halt
-swipl -q -f code/GROUPID_q2.pl -g "all_equations([4,2,5,3],Es), print(Es), nl" -t halt
+swipl -q -f code/78_q1.pl -g main -t halt
+swipl -q -f code/78_q1.pl -g "count_solutions([1,2,3,4,5,6,7,8],N), print(N), nl" -t halt
+swipl -q -f code/78_q2.pl -g "all_equations([4,2,5,3],Es), print(Es), nl" -t halt
 ```
 
-Replace `GROUPID` with the real group ID. Run commands from the `GROUPID/` folder.
+Our group ID is 78. Run commands from the `78/` folder.
 
 ## 4. Coding conventions
 
@@ -117,7 +117,7 @@ Replace `GROUPID` with the real group ID. Run commands from the `GROUPID/` folde
 - Tests go in `tests/`, one file per problem: `tests/test_q1.pl`, `tests/test_q2.pl`.
 - Tests may use `plunit` (tests are not bound by the library limit; the code
   files are). A test file starts with
-  `:- consult('../code/GROUPID_q1.pl').` and holds `:- begin_tests(...).` /
+  `:- consult('../code/78_q1.pl').` and holds `:- begin_tests(...).` /
   `:- end_tests(...).` blocks.
 - Run: `swipl -q -f tests/test_q1.pl -g run_tests -t halt`
 - Always include: every example from the assignment PDF, failure cases

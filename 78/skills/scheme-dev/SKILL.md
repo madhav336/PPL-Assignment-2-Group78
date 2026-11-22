@@ -23,7 +23,7 @@ recursive functions matter more than clever code.
 - **Racket 8.x**. Every code file starts with exactly `#lang racket/base`.
 - The file holds **only definitions**: no top-level calls, no top-level
   `display`, no `provide`, no `require`, no `module+`. Running
-  `racket code/GROUPID_q3.rkt` must print **nothing**. The grader appends its
+  `racket code/78_q3.rkt` must print **nothing**. The grader appends its
   own calls to the end of the file.
 
 ### The whitelist: these are the ONLY identifiers you may use
@@ -57,11 +57,11 @@ assignment a value is a list exactly when `(or (null? v) (pair? v))`
 ## 3. How the grader runs the code
 
 ```
-racket code/GROUPID_q3.rkt        # grader's calls appended to the end
-racket code/GROUPID_q4.rkt        # S2.a also reads x, lst, n from stdin
+racket code/78_q3.rkt        # grader's calls appended to the end
+racket code/78_q4.rkt        # S2.a also reads x, lst, n from stdin
 ```
 
-Replace `GROUPID` with the real group ID. Run commands from the `GROUPID/` folder.
+Our group ID is 78. Run commands from the `78/` folder.
 
 ## 4. Coding conventions
 
@@ -127,24 +127,24 @@ does: append calls to a copy of the file.
 - Test files: `tests/test_q3.rkt`, `tests/test_q4.rkt`. Each holds **only
   calls** (no `#lang` line) and, above each call, the expected output in a
   comment that starts `; expect: `.
-- Run (Git Bash), from the `GROUPID/` folder:
+- Run (Git Bash), from the `78/` folder:
 
   ```
-  cat code/GROUPID_q3.rkt tests/test_q3.rkt > ../run_q3.rkt && racket ../run_q3.rkt > ../out_q3.txt
+  cat code/78_q3.rkt tests/test_q3.rkt > ../run_q3.rkt && racket ../run_q3.rkt > ../out_q3.txt
   grep '^; expect: ' tests/test_q3.rkt | sed 's/^; expect: //' | diff - ../out_q3.txt && echo PASS
   ```
 
 - S2.a reads stdin, so also test it with input piped in:
 
   ```
-  printf '(print-insert-result)\n' | cat code/GROUPID_q4.rkt - > ../run_q4_io.rkt
+  printf '(print-insert-result)\n' | cat code/78_q4.rkt - > ../run_q4_io.rkt
   echo "42 ((1 2) (3 4 5) (6) ()) 3" | racket ../run_q4_io.rkt
   ```
 
 - Always include every example from the assignment PDF plus edge cases:
   the empty tree, a single node, a one-sided tree; for S2 `()` with `n = 0`,
   `n = 0` in general, deep nesting (100 levels) and a 10,000-element list.
-- Confirm `racket code/GROUPID_q3.rkt` on its own prints nothing.
+- Confirm `racket code/78_q3.rkt` on its own prints nothing.
 
 ### Whitelist check
 
