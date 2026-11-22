@@ -1,5 +1,15 @@
 :- consult('../code/78_q2.pl').
 
+% Test helper: read leaves in order from the implementation's num/1 and
+% binary operator expression-tree terms.
+test_expression_numbers(num(Number), [Number]).
+test_expression_numbers(Expr, Numbers) :-
+    Expr =.. [Operator, LeftExpr, RightExpr],
+    memberchk(Operator, [+, -, *, /]),
+    test_expression_numbers(LeftExpr, LeftNumbers),
+    test_expression_numbers(RightExpr, RightNumbers),
+    append(LeftNumbers, RightNumbers, Numbers).
+
 :- begin_tests(p2_arithmetic_equations).
 
 % Test 1: generate_equation/2 produces a valid equation for the PDF example.
@@ -92,5 +102,52 @@ test(equation_strings) :-
     all_equations([4, 2, 5, 3], Equations),
     maplist(string, Equations),
     forall(member(Equation, Equations), \+ sub_string(Equation, _, 1, _, " ")).
+
+% Additional edge coverage from the final P2 review.
+test(all_equations_empty_input, [true(Equations == [])]) :-
+    all_equations([], Equations).
+
+test(all_equations_single_input, [true(Equations == [])]) :-
+    all_equations([5], Equations).
+
+test(count_equations_empty_input, [true(Count =:= 0)]) :-
+    count_equations([], Count).
+
+test(count_equations_single_input, [true(Count =:= 0)]) :-
+    count_equations([5], Count).
+
+test(zero_dividend_exact_division, [true(Value =:= 0)]) :-
+    expr_value(/(num(0), num(5)), Value).
+
+test(zero_divisor_rejected, [fail]) :-
+    expr_value(/(num(0), num(0)), _).
+
+test(zero_pair_equation, [true(Equations == ["0=0"])]) :-
+    all_equations([0, 0], Equations).
+
+test(zero_equations_are_valid_unique_and_sorted) :-
+    all_equations([4, 0, 0], Equations),
+    Equations == ["4*0=0"],
+    sort(Equations, Equations),
+    forall(member(Equation, Equations),
+           \+ sub_string(Equation, _, 2, _, "/0")).
+
+test(expression_tree_single_number) :-
+    findall(Expr, expression_tree([5], Expr), Trees),
+    Trees == [num(5)].
+
+test(expression_tree_all_trees_preserve_order_and_use_each_number_once) :-
+    findall(Expr, expression_tree([1, 2, 3], Expr), Trees),
+    length(Trees, 32),
+    sort(Trees, UniqueTrees),
+    length(UniqueTrees, 32),
+    forall(member(Expr, Trees),
+           test_expression_numbers(Expr, [1, 2, 3])).
+
+test(expression_tree_empty_input, [fail]) :-
+    expression_tree([], _).
+
+test(expression_tree_non_integer_input, [fail]) :-
+    expression_tree([one], _).
 
 :- end_tests(p2_arithmetic_equations).
