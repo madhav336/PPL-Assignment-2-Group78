@@ -121,7 +121,7 @@
     (newline)))
 
 ;; ---------------------------------------------------------------------------
-;; S1.c: height (leaf count and print-height-and-leaves come next)
+;; S1.c: height, leaf count and print-height-and-leaves
 ;; ---------------------------------------------------------------------------
 
 ;; (tree-height tree) -> number
@@ -138,3 +138,29 @@
       0
       (+ 1 (max (tree-height (node-left tree))
                 (tree-height (node-right tree))))))
+
+;; (leaf-count tree) -> number
+;; The number of leaves in tree. A leaf is a node whose left and right
+;; subtrees are both ().
+;; Recursive reading:
+;;   - the empty tree () has 0 leaves;
+;;   - a node whose two subtrees are both () is a leaf, so it counts as 1
+;;     (there is nothing below it to search);
+;;   - any other node is internal: it is not a leaf itself, so its leaf count
+;;     is the leaf count of its left subtree plus that of its right subtree.
+;; Not tail recursive: both recursive calls are arguments to +, so work
+;; remains after each call returns.
+(define (leaf-count tree)
+  (cond ((null? tree) 0)
+        ((and (null? (node-left tree)) (null? (node-right tree))) 1)
+        (else (+ (leaf-count (node-left tree))
+                 (leaf-count (node-right tree))))))
+
+;; (print-height-and-leaves tree) -> void
+;; Prints one line with display: the two-element list (height leaf-count) of
+;; tree, built with list from tree-height and leaf-count, then a newline.
+;; Not recursive.
+(define (print-height-and-leaves tree)
+  (begin
+    (display (list (tree-height tree) (leaf-count tree)))
+    (newline)))
