@@ -48,3 +48,23 @@ expression_tree(Numbers, Expr) :-
     expression_tree(RightNumbers, RightExpr),
     member(Operator, [+, -, *, /]),
     Expr =.. [Operator, LeftExpr, RightExpr].
+
+% P2.1: consecutive input splits and equal expression sides
+%! number_split(+Numbers, -LeftNumbers, -RightNumbers) is nondet.
+%  Declarative reading: LeftNumbers and RightNumbers are non-empty consecutive
+%  parts of Numbers whose concatenation is exactly Numbers.
+number_split(Numbers, LeftNumbers, RightNumbers) :-
+    append(LeftNumbers, RightNumbers, Numbers),
+    LeftNumbers = [_|_],
+    RightNumbers = [_|_].
+
+%! equal_expression_sides(+Numbers, -LeftExpr, -RightExpr) is nondet.
+%  Declarative reading: LeftExpr and RightExpr are generated from two
+%  non-empty consecutive parts of Numbers and have the same integer value.
+equal_expression_sides(Numbers, LeftExpr, RightExpr) :-
+    number_split(Numbers, LeftNumbers, RightNumbers),
+    expression_tree(LeftNumbers, LeftExpr),
+    expression_tree(RightNumbers, RightExpr),
+    expr_value(LeftExpr, LeftValue),
+    expr_value(RightExpr, RightValue),
+    LeftValue =:= RightValue.
