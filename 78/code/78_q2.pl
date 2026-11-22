@@ -68,3 +68,50 @@ equal_expression_sides(Numbers, LeftExpr, RightExpr) :-
     expr_value(LeftExpr, LeftValue),
     expr_value(RightExpr, RightValue),
     LeftValue =:= RightValue.
+
+% P2.4: canonical expression formatting
+%! expression_string(+Expr, -String) is semidet.
+%  Declarative reading: String is the canonical, space-free SWI string for
+%  valid integer expression tree Expr, with parentheses preserving its tree.
+expression_string(Expr, String) :-
+    expression_string_at(Expr, 0, top, String).
+
+%! expression_string_at(+Expr, +ParentPrecedence, +Side, -String) is semidet.
+%  Declarative reading: String is Expr formatted for its position as a child
+%  of an operator with ParentPrecedence, or as a top-level expression.
+expression_string_at(num(Number), _, _, String) :-
+    integer(Number),
+    number_string(Number, String).
+expression_string_at(Expr, ParentPrecedence, Side, String) :-
+    Expr =.. [Operator, LeftExpr, RightExpr],
+    operator_details(Operator, Symbol, Precedence),
+    expression_string_at(LeftExpr, Precedence, left, LeftString),
+    expression_string_at(RightExpr, Precedence, right, RightString),
+    string_concat(LeftString, Symbol, LeftAndOperator),
+    string_concat(LeftAndOperator, RightString, Body),
+    parenthesize(Body, Precedence, ParentPrecedence, Side, String).
+
+%! operator_details(+Operator, -Symbol, -Precedence) is det.
+%  Declarative reading: Symbol and Precedence describe one of the four
+%  supported binary arithmetic operators.
+operator_details(+, "+", 1).
+operator_details(-, "-", 1).
+operator_details(*, "*", 2).
+operator_details(/, "/", 2).
+
+%! parenthesize(+Body, +Precedence, +ParentPrecedence, +Side, -String) is semidet.
+%  Declarative reading: String is Body with parentheses exactly when the
+%  child's precedence and side require them to preserve the expression tree.
+parenthesize(Body, _, _, top, Body).
+parenthesize(Body, Precedence, ParentPrecedence, left, Body) :-
+    Precedence >= ParentPrecedence.
+parenthesize(Body, Precedence, ParentPrecedence, left, String) :-
+    Precedence < ParentPrecedence,
+    string_concat("(", Body, Opened),
+    string_concat(Opened, ")", String).
+parenthesize(Body, Precedence, ParentPrecedence, right, Body) :-
+    Precedence > ParentPrecedence.
+parenthesize(Body, Precedence, ParentPrecedence, right, String) :-
+    Precedence =< ParentPrecedence,
+    string_concat("(", Body, Opened),
+    string_concat(Opened, ")", String).
