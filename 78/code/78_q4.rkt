@@ -31,23 +31,11 @@
               (cons (f (car remaining)) mapped-reversed)))))
 
 ;; (insert-if-short x lst n) -> list
-;; Recursive reading: first recursively process each immediate sublist; then
-;; prepend x exactly when the original list's top-level length is less than n.
-;; Atoms are passed through unchanged, while () is recognized as an empty list.
-;; Not tail recursive: after processing nested lists, the current call may
-;; still need to prepend x to the transformed list.
+;; Applies make-inserter with a predicate that accepts lengths strictly below n
+;; to lst, returning the transformed list.
+;; Not recursive: make-inserter's returned function performs the traversal.
 (define (insert-if-short x lst n)
-  (let ((original-length (my-length lst)))
-    (let ((processed-elements
-           (my-map
-            (lambda (element)
-              (if (or (null? element) (pair? element))
-                  (insert-if-short x element n)
-                  element))
-            lst)))
-      (if (< original-length n)
-          (cons x processed-elements)
-          processed-elements))))
+  ((make-inserter x (lambda (list-size) (< list-size n))) lst))
 
 ;; (print-insert-result) -> printed output
 ;; Reads x, lst, and n in that order, displays (insert-if-short x lst n),
