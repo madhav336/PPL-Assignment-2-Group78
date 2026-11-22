@@ -115,3 +115,15 @@ parenthesize(Body, Precedence, ParentPrecedence, right, String) :-
     Precedence =< ParentPrecedence,
     string_concat("(", Body, Opened),
     string_concat(Opened, ")", String).
+
+% P2.a: generate one valid equation
+%! generate_equation(+Numbers, -Equation) is nondet.
+%  Declarative reading: Equation is a space-free SWI string for two
+%  canonically formatted expressions from consecutive parts of Numbers that
+%  evaluate to the same integer using only exact, non-zero-divisor division.
+generate_equation(Numbers, Equation) :-
+    equal_expression_sides(Numbers, LeftExpr, RightExpr),
+    expression_string(LeftExpr, LeftString),
+    expression_string(RightExpr, RightString),
+    string_concat(LeftString, "=", LeftAndEquals),
+    string_concat(LeftAndEquals, RightString, Equation).
