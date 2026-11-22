@@ -48,3 +48,14 @@
       (if (< original-length n)
           (cons x processed-elements)
           processed-elements))))
+
+;; (print-insert-result) -> printed output
+;; Reads x, lst, and n in that order, displays (insert-if-short x lst n),
+;; and ends the result with one newline.
+;; Not recursive.
+(define (print-insert-result)
+  (let* ((x (read))
+         (lst (read))
+         (n (read)))
+    (display (insert-if-short x lst n))
+    (newline)))
