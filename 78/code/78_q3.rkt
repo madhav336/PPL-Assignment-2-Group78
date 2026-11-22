@@ -119,3 +119,22 @@
     (newline)
     (display (postorder tree))
     (newline)))
+
+;; ---------------------------------------------------------------------------
+;; S1.c: height (leaf count and print-height-and-leaves come next)
+;; ---------------------------------------------------------------------------
+
+;; (tree-height tree) -> number
+;; Recursive reading:
+;;   - the height of () is 0;
+;;   - the height of a node is 1 (for the node itself) plus the larger of the
+;;     heights of its left and right subtrees, because the longest path down
+;;     from the node continues through whichever subtree is taller.
+;; A single node therefore has height 1 + (max 0 0) = 1.
+;; Not tail recursive: both recursive calls are arguments to max, and the
+;; result of max is still passed to (+ 1 ...), so work remains after each call.
+(define (tree-height tree)
+  (if (null? tree)
+      0
+      (+ 1 (max (tree-height (node-left tree))
+                (tree-height (node-right tree))))))
