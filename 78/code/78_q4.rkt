@@ -59,3 +59,26 @@
          (n (read)))
     (display (insert-if-short x lst n))
     (newline)))
+
+;; (make-inserter x len-ok?) -> one-argument function from list to list
+;; The returned function processes each list by mapping over its immediate
+;; elements, recursively processing nested lists, then prepending x when
+;; len-ok? accepts that list's original top-level length.
+;; make-inserter itself is not recursive. Its local insert-list is not tail
+;; recursive: after processing nested lists, it may still prepend x.
+(define (make-inserter x len-ok?)
+  (letrec ((insert-list
+            (lambda (lst)
+              (let* ((original-length (my-length lst))
+                     (insert? (len-ok? original-length))
+                     (processed-elements
+                      (my-map
+                       (lambda (element)
+                         (if (or (null? element) (pair? element))
+                             (insert-list element)
+                             element))
+                       lst)))
+                (if insert?
+                    (cons x processed-elements)
+                    processed-elements)))))
+    (lambda (lst) (insert-list lst))))
