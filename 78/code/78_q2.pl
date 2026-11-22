@@ -127,3 +127,11 @@ generate_equation(Numbers, Equation) :-
     expression_string(RightExpr, RightString),
     string_concat(LeftString, "=", LeftAndEquals),
     string_concat(LeftAndEquals, RightString, Equation).
+
+% P2.b: collect all valid equations
+%! all_equations(+Numbers, -Equations) is det.
+%  Declarative reading: Equations is the sorted list of distinct equation
+%  strings generated for Numbers, or [] when no valid equation exists.
+all_equations(Numbers, Equations) :-
+    findall(Equation, generate_equation(Numbers, Equation), UnsortedEquations),
+    sort(UnsortedEquations, Equations).
