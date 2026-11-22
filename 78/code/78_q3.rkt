@@ -10,14 +10,17 @@
 
 ;; (node-value tree) -> value
 ;; The value stored at a non-empty node: the first element of (value left right).
+;; Not recursive.
 (define (node-value tree) (car tree))
 
 ;; (node-left tree) -> tree
 ;; The left subtree of a non-empty node: the second element.
+;; Not recursive.
 (define (node-left tree) (cadr tree))
 
 ;; (node-right tree) -> tree
 ;; The right subtree of a non-empty node: the third element.
+;; Not recursive.
 (define (node-right tree) (caddr tree))
 
 ;; ---------------------------------------------------------------------------
@@ -43,11 +46,14 @@
 
 ;; (inorder tree) -> list
 ;; The list of the values of tree in inorder (left subtree, node, right subtree).
+;; Not recursive: it delegates the whole traversal to inorder-acc, starting
+;; with an empty accumulator. That single call is a tail call.
 (define (inorder tree)
   (inorder-acc tree '()))
 
 ;; (print-inorder tree) -> void
 ;; Prints the inorder list of tree on one line with display, then a newline.
+;; Not recursive.
 (define (print-inorder tree)
   (begin
     (display (inorder tree))
