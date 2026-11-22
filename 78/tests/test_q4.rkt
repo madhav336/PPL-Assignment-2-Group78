@@ -1,3 +1,12 @@
+;; S2 permanent tests for 78/code/78_q4.rkt.
+;; Run from the 78/ directory: combine code/78_q4.rkt and tests/test_q4.rkt
+;; into ../run_q4.rkt, then execute: racket ../run_q4.rkt
+;; When execution reaches the four print-insert-result calls, paste this
+;; input as one line (12 datums, three per call):
+;; 42 ((1 2) (3 4 5) (6) ()) 3  
+;; 0 (((1) 2) (3) ((4 5 6) ())) 3  
+;; 7 () 3  
+;; 7 () 0
 ;; Tests for S2 (78/code/78_q4.rkt): nested conditional insertion.
 ;; This file holds calls only (no #lang line) and is appended to a copy of
 ;; the solution, following the format of test_q3.rkt.
